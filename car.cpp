@@ -25,7 +25,7 @@ int main(int argc, char **argv)
 	video >> frame1; // get a new frame from camVideoCaptureera
 	cvtColor(frame1, frame2, CV_BGR2GRAY);
 	medianBlur(frame2,frame2,9);//median filterwas
-	threshold(frame2,frame3,0,255,THRESH_OTSU);
+	threshold(frame2,frame3,10,255,THRESH_BINARY);
 	frame4=performOpening(frame3,0,2);
 	prevFrame = frame4;
        	curFrame = frame4;
@@ -43,10 +43,11 @@ int main(int argc, char **argv)
 		//threshold(frame2,frame3,0,255,THRESH_OTSU);
 		//GaussianBlur(edges, edges, Size(9,9), 1.5, 1.5);//gauss filter    
 		//Canny(edges, edges, 0, 30, 3);
-
+		
 		frame3=performOpening(frame2,0,2);
 		frame4=frameDiff( prevFrame,  curFrame,  nextFrame);
-		threshold(frame4,frame5,0,255,THRESH_OTSU);
+		threshold(frame4,frame5,10,255,THRESH_BINARY);
+		medianBlur(frame5,frame5,9);//median filter
 		//pMOG->operator()(frame4,frame1);
 		//pMOG2->operator()(frame4,frame2);
 		prevFrame = curFrame;
