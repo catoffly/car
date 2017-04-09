@@ -1,0 +1,20 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/fa/car/car.cpp
+opencv2/opencv.hpp
+/home/fa/car/opencv2/opencv.hpp
+opencv2/core/core.hpp
+/home/fa/car/opencv2/core/core.hpp
+opencv2/highgui/highgui.hpp
+/home/fa/car/opencv2/highgui/highgui.hpp
+opencv2/video/background_segm.hpp
+/home/fa/car/opencv2/video/background_segm.hpp
+iostream
+/home/fa/car/iostream
+
