@@ -7,40 +7,59 @@ using namespace cv;// Don`t need use cv::,after use namespace.
 using namespace std;
 Mat back (Mat pic);
 Mat performOpening(Mat inputImage, int morphologyElement, int morphologySize);
+Mat frameDiff(Mat prevFrame, Mat curFrame, Mat nextFrame);
 int main(int argc, char **argv)
 {
     	VideoCapture video(0); // open the default camera
     	if(!video.isOpened())  // check if we succeeded
         return -1;
 
-    	Mat edges;
-	Mat frame1,frame2,frame3,frame4;
+	Mat frame1,frame2,frame3,frame4,frame5;
+	Mat prevFrame, curFrame, nextFrame;
+	/*
 	Ptr<BackgroundSubtractor> pMOG;
 	Ptr<BackgroundSubtractor> pMOG2;
 	pMOG=new BackgroundSubtractorMOG();
 	pMOG2=new BackgroundSubtractorMOG2();
+	*/
+	video >> frame1; // get a new frame from camVideoCaptureera
+	cvtColor(frame1, frame2, CV_BGR2GRAY);
+	medianBlur(frame2,frame2,9);//median filterwas
+	threshold(frame2,frame3,0,255,THRESH_OTSU);
+	frame4=performOpening(frame3,0,2);
+	prevFrame = frame4;
+       	curFrame = frame4;
+        nextFrame = frame4;
+	
     	namedWindow("video",WINDOW_AUTOSIZE);
-    	namedWindow("frame1",WINDOW_AUTOSIZE);
-	namedWindow("frame2",WINDOW_AUTOSIZE);
+    	namedWindow("frame5",WINDOW_AUTOSIZE);
+	//namedWindow("frame4",WINDOW_AUTOSIZE);
     	while(1)
     	{
 		Mat frame;
-		video >> frame; // get a new frame from camVideoCaptureera
-		cvtColor(frame, edges, CV_BGR2GRAY);
-		medianBlur(edges,edges,9);//median filter
-		threshold(edges,frame3,0,255,THRESH_OTSU);
+		video >> frame1; // get a new frame from camVideoCaptureera
+		cvtColor(frame1, frame2, CV_BGR2GRAY);
+		medianBlur(frame2,frame2,9);//median filter
+		//threshold(frame2,frame3,0,255,THRESH_OTSU);
 		//GaussianBlur(edges, edges, Size(9,9), 1.5, 1.5);//gauss filter    
 		//Canny(edges, edges, 0, 30, 3);
-		//frame4=performOpening(frame3,0,2);
-		pMOG->operator()(frame3,frame1);
-		pMOG2->operator()(frame3,frame2);
-		imshow("frame1",frame1);
-		imshow("frame2",frame2);
-		//back (edges);
-		imshow("video", frame3);
+
+		frame3=performOpening(frame2,0,2);
+		frame4=frameDiff( prevFrame,  curFrame,  nextFrame);
+		threshold(frame4,frame5,0,255,THRESH_OTSU);
+		//pMOG->operator()(frame4,frame1);
+		//pMOG2->operator()(frame4,frame2);
+		prevFrame = curFrame;
+       		curFrame = nextFrame;
+           	nextFrame = frame3;
+		imshow("frame5",frame5);
+		//imshow("frame4",frame4);
+		imshow("video", frame1);
 		if(waitKey(30) >= 0) break;
     	}
     	// the camera will be deinitialized automatically in VideoCapture destructor
+	video.release();//close video
+	destroyAllWindows();//close window
     	return 0;
 }
 
@@ -69,3 +88,20 @@ Mat performOpening(Mat inputImage, int morphologyElement, int morphologySize)
     // Return the output image
     return outputImage;
 }
+//two pictures will use "and" .
+Mat frameDiff(Mat prevFrame, Mat curFrame, Mat nextFrame)
+{
+    Mat diffFrames1, diffFrames2, output;
+    
+    // Compute absolute difference between current frame and the next frame
+    absdiff(nextFrame, curFrame, diffFrames1);
+    
+    // Compute absolute difference between current frame and the previous frame
+    absdiff(curFrame, prevFrame, diffFrames2);
+    
+    // Bitwise "AND" operation between the above two diff images
+    bitwise_and(diffFrames1, diffFrames2, output);
+    
+    return output;
+}
+
