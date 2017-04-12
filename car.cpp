@@ -3,19 +3,23 @@
 #include "opencv2/highgui/highgui.hpp"
 #include "opencv2/video/background_segm.hpp"
 #include "iostream"
+#include "stdio.h"
 using namespace cv;// Don`t need use cv::,after use namespace.
 using namespace std;
-Mat back (Mat pic);
+
+
 Mat performOpening(Mat inputImage, int morphologyElement, int morphologySize);
 Mat frameDiff(Mat prevFrame, Mat curFrame, Mat nextFrame);
+void REC (Mat image);
 int main(int argc, char **argv)
 {
-    	VideoCapture video(0); // open the default camera
+    	VideoCapture video(0); // open the default camera h480 w 640
     	if(!video.isOpened())  // check if we succeeded
         return -1;
 
 	Mat frame1,frame2,frame3,frame4,frame5;
 	Mat prevFrame, curFrame, nextFrame;
+	Size s;
 	/*
 	Ptr<BackgroundSubtractor> pMOG;
 	Ptr<BackgroundSubtractor> pMOG2;
@@ -30,6 +34,10 @@ int main(int argc, char **argv)
 	prevFrame = frame4;
        	curFrame = frame4;
         nextFrame = frame4;
+	
+	s = frame4.size();	
+	printf("h %d",s.height);
+	printf("w %d",s.width);
 	
     	namedWindow("video",WINDOW_AUTOSIZE);
     	namedWindow("frame5",WINDOW_AUTOSIZE);
@@ -53,6 +61,10 @@ int main(int argc, char **argv)
 		prevFrame = curFrame;
        		curFrame = nextFrame;
            	nextFrame = frame3;
+		
+		REC (frame1);
+		
+
 		imshow("frame5",frame5);
 		//imshow("frame4",frame4);
 		imshow("video", frame1);
@@ -104,5 +116,25 @@ Mat frameDiff(Mat prevFrame, Mat curFrame, Mat nextFrame)
     bitwise_and(diffFrames1, diffFrames2, output);
     
     return output;
+}
+
+void REC (Mat image)
+{
+	int i,j;
+	int green=255,red=255;
+	for(i=0;i<20;i++)
+	{	
+		
+		for(j=0;j<20;j++)
+		{
+			rectangle(image,
+				Point(i*32,j*24),
+				Point(i*32+31,j*24+23),
+				Scalar(0,green,0),
+				1,8
+					);
+		}
+	}
+
 }
 

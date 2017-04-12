@@ -17,4 +17,6 @@ opencv2/video/background_segm.hpp
 /home/fa/car/opencv2/video/background_segm.hpp
 iostream
 /home/fa/car/iostream
+stdio.h
+/home/fa/car/stdio.h
 
