@@ -5,6 +5,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
   "/home/fa/car/car.cpp" "/home/fa/car/build/CMakeFiles/car.dir/car.cpp.o"
+  "/home/fa/car/contour.cpp" "/home/fa/car/build/CMakeFiles/car.dir/contour.cpp.o"
   "/home/fa/car/gpio.cpp" "/home/fa/car/build/CMakeFiles/car.dir/gpio.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")

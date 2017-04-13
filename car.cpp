@@ -4,6 +4,7 @@
 #include "opencv2/video/background_segm.hpp"
 #include "iostream"
 #include "stdio.h"
+#include "contour.hpp"
 using namespace cv;// Don`t need use cv::,after use namespace.
 using namespace std;
 
@@ -21,16 +22,11 @@ int main(int argc, char **argv)
     	if(!video.isOpened())  // check if we succeeded
         return -1;
 
-	Mat frame1,frame2,frame3,frame4,frame5;
+	Mat frame1,frame2,frame3,frame4,frame5,frame6,frame7;
 	Mat prevFrame, curFrame, nextFrame;
 	
 	Size s;
-	/*
-	Ptr<BackgroundSubtractor> pMOG;
-	Ptr<BackgroundSubtractor> pMOG2;
-	pMOG=new BackgroundSubtractorMOG();
-	pMOG2=new BackgroundSubtractorMOG2();
-	*/
+
 	video >> frame1; // get a new frame from camVideoCaptureera
 	cvtColor(frame1, frame2, CV_BGR2GRAY);
 	medianBlur(frame2,frame2,9);//median filterwas
@@ -46,6 +42,7 @@ int main(int argc, char **argv)
 	
     	namedWindow("video",WINDOW_AUTOSIZE);
     	namedWindow("frame5",WINDOW_AUTOSIZE);
+	//namedWindow("image",WINDOW_AUTOSIZE);
 	//namedWindow("frame4",WINDOW_AUTOSIZE);
     	while(1)
     	{
@@ -55,22 +52,24 @@ int main(int argc, char **argv)
 		medianBlur(frame2,frame2,9);//median filter
 		//threshold(frame2,frame3,0,255,THRESH_OTSU);
 		//GaussianBlur(edges, edges, Size(9,9), 1.5, 1.5);//gauss filter    
-		//Canny(edges, edges, 0, 30, 3);
 		
-		frame3=performOpening(frame2,0,2);
+		frame3 = frame2.clone();
+		threshold(frame2,frame7,0,255,THRESH_OTSU);
+		//frame3=performOpening(frame2,0,2);
 		frame4=frameDiff( prevFrame,  curFrame,  nextFrame);
 		threshold(frame4,frame5,10,255,THRESH_BINARY);
-		medianBlur(frame5,frame5,9);//median filter
-		//pMOG->operator()(frame4,frame1);
-		//pMOG2->operator()(frame4,frame2);
+		
+		//medianBlur(frame5,frame5,9);//median filter
+		frame6=performOpening(frame5,0,2);
 		prevFrame = curFrame;
        		curFrame = nextFrame;
            	nextFrame = frame3;
 		
-		REC (frame1,frame5);
+		REC (frame1,frame6);
+		find_contssss(frame7);
 
-		imshow("frame5",frame5);
-		//imshow("frame4",frame4);
+		imshow("frame5",frame6);
+		//imshow("frame7",frame7);
 		imshow("video", frame1);
 		if(waitKey(30) >= 0) break;
     	}
@@ -99,9 +98,9 @@ Mat performOpening(Mat inputImage, int morphologyElement, int morphologySize)
     Mat element = getStructuringElement(morphologyType, Size(2*morphologySize + 1, 2*morphologySize + 1), Point(morphologySize, morphologySize));
     
     // Apply morphological opening to the image using the structuring element
-    erode(inputImage, tempImage, element);
-    dilate(tempImage, outputImage, element);
-    
+   // erode(inputImage, tempImage, element);
+    //dilate(tempImage, outputImage, element);
+    dilate(inputImage, outputImage, element);
     // Return the output image
     return outputImage;
 }

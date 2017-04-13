@@ -95,16 +95,41 @@ CMakeFiles/car.dir/gpio.cpp.o.provides: CMakeFiles/car.dir/gpio.cpp.o.requires
 
 CMakeFiles/car.dir/gpio.cpp.o.provides.build: CMakeFiles/car.dir/gpio.cpp.o
 
+CMakeFiles/car.dir/contour.cpp.o: CMakeFiles/car.dir/flags.make
+CMakeFiles/car.dir/contour.cpp.o: ../contour.cpp
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/fa/car/build/CMakeFiles $(CMAKE_PROGRESS_3)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/car.dir/contour.cpp.o"
+	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/car.dir/contour.cpp.o -c /home/fa/car/contour.cpp
+
+CMakeFiles/car.dir/contour.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/car.dir/contour.cpp.i"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/fa/car/contour.cpp > CMakeFiles/car.dir/contour.cpp.i
+
+CMakeFiles/car.dir/contour.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/car.dir/contour.cpp.s"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/fa/car/contour.cpp -o CMakeFiles/car.dir/contour.cpp.s
+
+CMakeFiles/car.dir/contour.cpp.o.requires:
+.PHONY : CMakeFiles/car.dir/contour.cpp.o.requires
+
+CMakeFiles/car.dir/contour.cpp.o.provides: CMakeFiles/car.dir/contour.cpp.o.requires
+	$(MAKE) -f CMakeFiles/car.dir/build.make CMakeFiles/car.dir/contour.cpp.o.provides.build
+.PHONY : CMakeFiles/car.dir/contour.cpp.o.provides
+
+CMakeFiles/car.dir/contour.cpp.o.provides.build: CMakeFiles/car.dir/contour.cpp.o
+
 # Object files for target car
 car_OBJECTS = \
 "CMakeFiles/car.dir/car.cpp.o" \
-"CMakeFiles/car.dir/gpio.cpp.o"
+"CMakeFiles/car.dir/gpio.cpp.o" \
+"CMakeFiles/car.dir/contour.cpp.o"
 
 # External object files for target car
 car_EXTERNAL_OBJECTS =
 
 car: CMakeFiles/car.dir/car.cpp.o
 car: CMakeFiles/car.dir/gpio.cpp.o
+car: CMakeFiles/car.dir/contour.cpp.o
 car: CMakeFiles/car.dir/build.make
 car: /usr/lib/arm-linux-gnueabihf/libopencv_videostab.so.2.4.9
 car: /usr/lib/arm-linux-gnueabihf/libopencv_video.so.2.4.9
@@ -145,6 +170,7 @@ CMakeFiles/car.dir/build: car
 
 CMakeFiles/car.dir/requires: CMakeFiles/car.dir/car.cpp.o.requires
 CMakeFiles/car.dir/requires: CMakeFiles/car.dir/gpio.cpp.o.requires
+CMakeFiles/car.dir/requires: CMakeFiles/car.dir/contour.cpp.o.requires
 .PHONY : CMakeFiles/car.dir/requires
 
 CMakeFiles/car.dir/clean:

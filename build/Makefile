@@ -139,6 +139,30 @@ car.cpp.s:
 	$(MAKE) -f CMakeFiles/car.dir/build.make CMakeFiles/car.dir/car.cpp.s
 .PHONY : car.cpp.s
 
+contour.o: contour.cpp.o
+.PHONY : contour.o
+
+# target to build an object file
+contour.cpp.o:
+	$(MAKE) -f CMakeFiles/car.dir/build.make CMakeFiles/car.dir/contour.cpp.o
+.PHONY : contour.cpp.o
+
+contour.i: contour.cpp.i
+.PHONY : contour.i
+
+# target to preprocess a source file
+contour.cpp.i:
+	$(MAKE) -f CMakeFiles/car.dir/build.make CMakeFiles/car.dir/contour.cpp.i
+.PHONY : contour.cpp.i
+
+contour.s: contour.cpp.s
+.PHONY : contour.s
+
+# target to generate assembly for a file
+contour.cpp.s:
+	$(MAKE) -f CMakeFiles/car.dir/build.make CMakeFiles/car.dir/contour.cpp.s
+.PHONY : contour.cpp.s
+
 gpio.o: gpio.cpp.o
 .PHONY : gpio.o
 
@@ -175,6 +199,9 @@ help:
 	@echo "... car.o"
 	@echo "... car.i"
 	@echo "... car.s"
+	@echo "... contour.o"
+	@echo "... contour.i"
+	@echo "... contour.s"
 	@echo "... gpio.o"
 	@echo "... gpio.i"
 	@echo "... gpio.s"
