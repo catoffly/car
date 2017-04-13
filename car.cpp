@@ -10,7 +10,11 @@ using namespace std;
 
 Mat performOpening(Mat inputImage, int morphologyElement, int morphologySize);
 Mat frameDiff(Mat prevFrame, Mat curFrame, Mat nextFrame);
-void REC (Mat image);
+void REC (Mat image,Mat image2);
+Rect grid_s(0,0,32,24);
+char grid[20][20];
+int  point_mun=0;
+Mat roiimage;
 int main(int argc, char **argv)
 {
     	VideoCapture video(0); // open the default camera h480 w 640
@@ -19,6 +23,7 @@ int main(int argc, char **argv)
 
 	Mat frame1,frame2,frame3,frame4,frame5;
 	Mat prevFrame, curFrame, nextFrame;
+	
 	Size s;
 	/*
 	Ptr<BackgroundSubtractor> pMOG;
@@ -62,8 +67,7 @@ int main(int argc, char **argv)
        		curFrame = nextFrame;
            	nextFrame = frame3;
 		
-		REC (frame1);
-		
+		REC (frame1,frame5);
 
 		imshow("frame5",frame5);
 		//imshow("frame4",frame4);
@@ -118,23 +122,43 @@ Mat frameDiff(Mat prevFrame, Mat curFrame, Mat nextFrame)
     return output;
 }
 
-void REC (Mat image)
+void REC (Mat image,Mat image2)
 {
 	int i,j;
 	int green=255,red=255;
-	for(i=0;i<20;i++)
+	for(i=0;i<20;i++)//lie
 	{	
 		
-		for(j=0;j<20;j++)
-		{
+		for(j=0;j<20;j++)//hang
+		{	
+			grid_s.x=j*32;
+			grid_s.y=i*24;
+			image2(grid_s).copyTo(roiimage);
+			point_mun = countNonZero(roiimage);
+			if(point_mun>30)
+			{
+				grid[j][i] = 1;
+				red = 255;
+				green = 0;
+			}
+			else
+			{
+				grid[j][i] = 0;
+				red = 0;
+				green = 255;
+			}
 			rectangle(image,
-				Point(i*32,j*24),
-				Point(i*32+31,j*24+23),
-				Scalar(0,green,0),
-				1,8
-					);
+				Point(j*32,i*24),
+				Point(j*32+31,i*24+23),
+				Scalar(0,green,red),
+				1,8);
 		}
 	}
 
+
 }
+
+
+
+
 
