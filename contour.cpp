@@ -1,7 +1,9 @@
 #include "contour.hpp"
+#include "car.hpp"
 using namespace cv;// Don`t need use cv::,after use namespace.
 using namespace std;
-void find_contssss (Mat image )	
+char grid2[20][20];
+Mat find_contssss (Mat image )	
 {
 	//获取轮廓
 	std::vector<std::vector<Point> > contours;
@@ -20,23 +22,45 @@ void find_contssss (Mat image )
 		std::cout<<"每个轮廓的长度: "<<itContours->size()<<std::endl;
 	}
 	
-	//除去太长或者太短的轮廓
-	/*
-	int cmin = 100;
-	int cmax = 1000;
-	std::vector<std::vector<Point> >::const_iterator itc = contours.begin();
-	std::vector<std::vector<Point> >::const_iterator itc1 = contours1.begin();
-	while(itc != contours.end())
-	{
-		if(itc->size() < cmin || itc->size() > cmax)
-		itc1->size() = itc->size();
-		else
-		{	++itc;
-			++itc1;
-		}
-	}
-	*/
+	
 	Mat image1(image.size(),CV_8U,Scalar(0));
 	drawContours(image1,contours,-1,Scalar(255),-1);
+	REC (image1,image1);
+	transf(grid,grid2);
 	imshow("image",image1);
+	
+	return image1;
+}
+void transf(char arr1[20][20], char arr2[20][20])//copy arr
+{
+	int i,j;
+	
+	for(j=0;j<20;j++)
+	{
+		for(i=0;i<20;i++)
+		{		
+			arr2[j][i]=arr1[j][i];
+		}
+	}
+}
+void compare_arr(char arr1[20][20], char arr2[20][20],char arr3[20][20] ,Mat image)//get finaly data
+{
+	int i,j;
+	
+	for(j=0;j<20;j++)
+	{
+		for(i=0;i<20;i++)
+		{		
+			if(arr2[j][i]==1&&arr1[j][i]==1)
+				{
+					arr3[j][i]=1;
+					rectangle(image,
+					Point(j*32,i*24),
+					Point(j*32+31,i*24+23),
+					Scalar(0,0,225),
+					1,8);
+				}
+		}
+		
+	}
 }

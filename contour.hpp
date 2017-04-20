@@ -8,8 +8,10 @@
 #include "iostream"
 #include "stdio.h"
 using namespace cv;
-void find_contssss(Mat image);
-
+Mat find_contssss(Mat image);
+void compare_arr(char arr1[20][20], char arr2[20][20],char arr3[20][20] ,Mat image);
+void transf(char arr1[20][20], char arr2[20][20]);
+extern char grid2[20][20];
 #endif
 
 

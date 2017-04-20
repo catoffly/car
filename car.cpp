@@ -5,6 +5,7 @@
 #include "iostream"
 #include "stdio.h"
 #include "contour.hpp"
+#include "car.hpp"
 using namespace cv;// Don`t need use cv::,after use namespace.
 using namespace std;
 
@@ -14,6 +15,7 @@ Mat frameDiff(Mat prevFrame, Mat curFrame, Mat nextFrame);
 void REC (Mat image,Mat image2);
 Rect grid_s(0,0,32,24);
 char grid[20][20];
+char grid1[20][20],grid3[20][20];
 int  point_mun=0;
 Mat roiimage;
 int main(int argc, char **argv)
@@ -22,9 +24,9 @@ int main(int argc, char **argv)
     	if(!video.isOpened())  // check if we succeeded
         return -1;
 
-	Mat frame1,frame2,frame3,frame4,frame5,frame6,frame7;
+	Mat frame1,frame2,frame3,frame4,frame5,frame6,frame7,frame8,frame9,frame10;
 	Mat prevFrame, curFrame, nextFrame;
-	
+	Mat prevFrame1, curFrame1, nextFrame1;
 	Size s;
 
 	video >> frame1; // get a new frame from camVideoCaptureera
@@ -35,6 +37,10 @@ int main(int argc, char **argv)
 	prevFrame = frame4;
        	curFrame = frame4;
         nextFrame = frame4;
+
+	prevFrame1 = frame4;
+       	curFrame1 = frame4;
+        nextFrame1 = frame4;
 	
 	s = frame4.size();	
 	printf("h %d",s.height);
@@ -61,15 +67,23 @@ int main(int argc, char **argv)
 		
 		//medianBlur(frame5,frame5,9);//median filter
 		frame6=performOpening(frame5,0,2);
+
 		prevFrame = curFrame;
        		curFrame = nextFrame;
            	nextFrame = frame3;
 		
 		REC (frame1,frame6);
-		find_contssss(frame7);
-
+		transf(grid,grid1);
+		frame8=find_contssss(frame7);
+		frame9 = frame8.clone();
+		prevFrame1 = curFrame1;
+       		curFrame1 = nextFrame1;
+           	nextFrame1 = frame9;
+		frame10=frameDiff( prevFrame1,  curFrame1,  nextFrame1);
+		REC (frame1,frame10);
+		compare_arr(grid1, grid2,grid3,frame1);
 		imshow("frame5",frame6);
-		//imshow("frame7",frame7);
+		imshow("frame10",frame10);
 		imshow("video", frame1);
 		if(waitKey(30) >= 0) break;
     	}
@@ -134,7 +148,7 @@ void REC (Mat image,Mat image2)
 			grid_s.y=i*24;
 			image2(grid_s).copyTo(roiimage);
 			point_mun = countNonZero(roiimage);
-			if(point_mun>30)
+			if(point_mun>100)
 			{
 				grid[j][i] = 1;
 				red = 255;
@@ -146,11 +160,12 @@ void REC (Mat image,Mat image2)
 				red = 0;
 				green = 255;
 			}
-			rectangle(image,
+			/*rectangle(image,
 				Point(j*32,i*24),
 				Point(j*32+31,i*24+23),
 				Scalar(0,green,red),
 				1,8);
+			*/
 		}
 	}
 
