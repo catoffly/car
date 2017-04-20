@@ -25,8 +25,6 @@ Mat find_contssss (Mat image )
 	
 	Mat image1(image.size(),CV_8U,Scalar(0));
 	drawContours(image1,contours,-1,Scalar(255),-1);
-	REC (image1,image1);
-	transf(grid,grid2);
 	imshow("image",image1);
 	
 	return image1;

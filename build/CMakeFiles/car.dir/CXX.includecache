@@ -38,12 +38,6 @@ iostream
 stdio.h
 /home/fa/car/stdio.h
 
-/home/fa/car/contour.cpp
-contour.hpp
-/home/fa/car/contour.hpp
-car.hpp
-/home/fa/car/car.hpp
-
 /home/fa/car/contour.hpp
 opencv2/opencv.hpp
 /home/fa/car/opencv2/opencv.hpp

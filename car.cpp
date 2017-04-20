@@ -47,7 +47,7 @@ int main(int argc, char **argv)
 	printf("w %d",s.width);
 	
     	namedWindow("video",WINDOW_AUTOSIZE);
-    	namedWindow("frame5",WINDOW_AUTOSIZE);
+    	namedWindow("frame6",WINDOW_AUTOSIZE);
 	//namedWindow("image",WINDOW_AUTOSIZE);
 	//namedWindow("frame4",WINDOW_AUTOSIZE);
     	while(1)
@@ -59,31 +59,18 @@ int main(int argc, char **argv)
 		//threshold(frame2,frame3,0,255,THRESH_OTSU);
 		//GaussianBlur(edges, edges, Size(9,9), 1.5, 1.5);//gauss filter    
 		
-		frame3 = frame2.clone();
-		threshold(frame2,frame7,0,255,THRESH_OTSU);
-		//frame3=performOpening(frame2,0,2);
-		frame4=frameDiff( prevFrame,  curFrame,  nextFrame);
-		threshold(frame4,frame5,10,255,THRESH_BINARY);
-		
-		//medianBlur(frame5,frame5,9);//median filter
-		frame6=performOpening(frame5,0,2);
+		threshold(frame2,frame3,0,255,THRESH_OTSU);
+		frame4=find_contssss(frame3);
+		frame5 = frame4.clone();
 
 		prevFrame = curFrame;
        		curFrame = nextFrame;
-           	nextFrame = frame3;
+           	nextFrame = frame5;
 		
+		frame6=frameDiff( prevFrame,  curFrame,  nextFrame);
+				
 		REC (frame1,frame6);
-		transf(grid,grid1);
-		frame8=find_contssss(frame7);
-		frame9 = frame8.clone();
-		prevFrame1 = curFrame1;
-       		curFrame1 = nextFrame1;
-           	nextFrame1 = frame9;
-		frame10=frameDiff( prevFrame1,  curFrame1,  nextFrame1);
-		REC (frame1,frame10);
-		compare_arr(grid1, grid2,grid3,frame1);
-		imshow("frame5",frame6);
-		imshow("frame10",frame10);
+		imshow("frame6",frame6);
 		imshow("video", frame1);
 		if(waitKey(30) >= 0) break;
     	}
@@ -148,7 +135,7 @@ void REC (Mat image,Mat image2)
 			grid_s.y=i*24;
 			image2(grid_s).copyTo(roiimage);
 			point_mun = countNonZero(roiimage);
-			if(point_mun>100)
+			if(point_mun>20)
 			{
 				grid[j][i] = 1;
 				red = 255;
@@ -160,12 +147,12 @@ void REC (Mat image,Mat image2)
 				red = 0;
 				green = 255;
 			}
-			/*rectangle(image,
+			rectangle(image,
 				Point(j*32,i*24),
 				Point(j*32+31,i*24+23),
 				Scalar(0,green,red),
 				1,8);
-			*/
+			
 		}
 	}
 
