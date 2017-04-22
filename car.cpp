@@ -6,6 +6,7 @@
 #include "stdio.h"
 #include "contour.hpp"
 #include "car.hpp"
+#include "gpio.hpp"
 using namespace cv;// Don`t need use cv::,after use namespace.
 using namespace std;
 
@@ -57,21 +58,23 @@ int main(int argc, char **argv)
 		cvtColor(frame1, frame2, CV_BGR2GRAY);
 		medianBlur(frame2,frame2,9);//median filter
 		//threshold(frame2,frame3,0,255,THRESH_OTSU);
-		//GaussianBlur(edges, edges, Size(9,9), 1.5, 1.5);//gauss filter    
+		//GaussianBlur(frame2, frame2, Size(9,9), 1.5, 1.5);//gauss filter    
 		
 		threshold(frame2,frame3,0,255,THRESH_OTSU);
 		frame4=find_contssss(frame3);
-		frame5 = frame4.clone();
+		frame5=performOpening(frame4,1,1);
+		frame6 = frame5.clone();
 
 		prevFrame = curFrame;
        		curFrame = nextFrame;
-           	nextFrame = frame5;
+           	nextFrame = frame6;
 		
-		frame6=frameDiff( prevFrame,  curFrame,  nextFrame);
-				
-		REC (frame1,frame6);
-		imshow("frame6",frame6);
+		frame7=frameDiff( prevFrame,  curFrame,  nextFrame);
+		medianBlur(frame7,frame7,9);		
+		REC (frame1,frame7);
+		imshow("frame6",frame7);
 		imshow("video", frame1);
+		gpio_init();
 		if(waitKey(30) >= 0) break;
     	}
     	// the camera will be deinitialized automatically in VideoCapture destructor
@@ -101,7 +104,8 @@ Mat performOpening(Mat inputImage, int morphologyElement, int morphologySize)
     // Apply morphological opening to the image using the structuring element
    // erode(inputImage, tempImage, element);
     //dilate(tempImage, outputImage, element);
-    dilate(inputImage, outputImage, element);
+    dilate(inputImage, tempImage, element);
+    erode(tempImage, outputImage, element);
     // Return the output image
     return outputImage;
 }
@@ -135,7 +139,7 @@ void REC (Mat image,Mat image2)
 			grid_s.y=i*24;
 			image2(grid_s).copyTo(roiimage);
 			point_mun = countNonZero(roiimage);
-			if(point_mun>20)
+			if(point_mun>1)
 			{
 				grid[j][i] = 1;
 				red = 255;

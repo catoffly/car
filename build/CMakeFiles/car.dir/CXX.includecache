@@ -6,7 +6,7 @@
 
 #IncludeRegexTransform: 
 
-/home/fa/car/car.cpp
+/home/fa/car/car.hpp
 opencv2/opencv.hpp
 /home/fa/car/opencv2/opencv.hpp
 opencv2/core/core.hpp
@@ -19,36 +19,28 @@ iostream
 /home/fa/car/iostream
 stdio.h
 /home/fa/car/stdio.h
-contour.hpp
-/home/fa/car/contour.hpp
+
+/home/fa/car/gpio.cpp
 car.hpp
 /home/fa/car/car.hpp
+gpio.hpp
+/home/fa/car/gpio.hpp
 
+/home/fa/car/gpio.hpp
+car.hpp
 /home/fa/car/car.hpp
-opencv2/opencv.hpp
-/home/fa/car/opencv2/opencv.hpp
-opencv2/core/core.hpp
-/home/fa/car/opencv2/core/core.hpp
-opencv2/highgui/highgui.hpp
-/home/fa/car/opencv2/highgui/highgui.hpp
-opencv2/video/background_segm.hpp
-/home/fa/car/opencv2/video/background_segm.hpp
-iostream
-/home/fa/car/iostream
 stdio.h
-/home/fa/car/stdio.h
-
-/home/fa/car/contour.hpp
-opencv2/opencv.hpp
-/home/fa/car/opencv2/opencv.hpp
-opencv2/core/core.hpp
-/home/fa/car/opencv2/core/core.hpp
-opencv2/highgui/highgui.hpp
-/home/fa/car/opencv2/highgui/highgui.hpp
-opencv2/video/background_segm.hpp
-/home/fa/car/opencv2/video/background_segm.hpp
-iostream
-/home/fa/car/iostream
-stdio.h
-/home/fa/car/stdio.h
+-
+stdlib.h
+-
+time.h
+-
+unistd.h
+-
+fcntl.h
+-
+unistd.h
+-
+sys/mman.h
+-
 

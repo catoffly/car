@@ -14,13 +14,14 @@ Mat find_contssss (Mat image )
 				//包含图像拓扑结构的息（可选参数，这里没选）
 		CV_RETR_EXTERNAL,			//获取轮廓的方法（这里获取外围轮廓）
 		CV_CHAIN_APPROX_NONE);		//轮廓近似的方法（这里不近似，获取全部轮廓）
-	//打印轮廓信息
+	/*//打印轮廓信息
 	std::cout<<"共有外围轮廓："<<contours.size()<<"条"<<std::endl;
 	std::vector<std::vector<Point> >::const_iterator itContours = contours.begin();
 	for(;itContours != contours.end();++itContours)
 	{
 		std::cout<<"每个轮廓的长度: "<<itContours->size()<<std::endl;
 	}
+*/
 	
 	
 	Mat image1(image.size(),CV_8U,Scalar(0));
