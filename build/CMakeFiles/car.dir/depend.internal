@@ -10,6 +10,10 @@ CMakeFiles/car.dir/contour.cpp.o
  /home/fa/car/car.hpp
  /home/fa/car/contour.cpp
  /home/fa/car/contour.hpp
+CMakeFiles/car.dir/control.cpp.o
+ /home/fa/car/car.hpp
+ /home/fa/car/control.cpp
+ /home/fa/car/control.hpp
 CMakeFiles/car.dir/gpio.cpp.o
  /home/fa/car/car.hpp
  /home/fa/car/gpio.cpp

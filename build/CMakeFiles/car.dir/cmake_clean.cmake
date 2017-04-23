@@ -2,6 +2,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/car.dir/car.cpp.o"
   "CMakeFiles/car.dir/gpio.cpp.o"
   "CMakeFiles/car.dir/contour.cpp.o"
+  "CMakeFiles/car.dir/control.cpp.o"
   "car.pdb"
   "car"
 )

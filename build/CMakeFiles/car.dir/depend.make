@@ -10,6 +10,10 @@ CMakeFiles/car.dir/contour.cpp.o: ../car.hpp
 CMakeFiles/car.dir/contour.cpp.o: ../contour.cpp
 CMakeFiles/car.dir/contour.cpp.o: ../contour.hpp
 
+CMakeFiles/car.dir/control.cpp.o: ../car.hpp
+CMakeFiles/car.dir/control.cpp.o: ../control.cpp
+CMakeFiles/car.dir/control.cpp.o: ../control.hpp
+
 CMakeFiles/car.dir/gpio.cpp.o: ../car.hpp
 CMakeFiles/car.dir/gpio.cpp.o: ../gpio.cpp
 CMakeFiles/car.dir/gpio.cpp.o: ../gpio.hpp

@@ -11,7 +11,15 @@
 #include <sys/mman.h>
 
 
+#define GPIOC_BASE_ADDRESS   (0xC001C000)
+#define PWM_BASE_ADDRESS     (0xc0018000)
+#define MAP_SIZE 40
+
 
 using namespace cv;
+void gpio(void);
 void gpio_init(void);
+void gpio_uninit(void);
+void gpio_high(void);
+void gpio_low(void);
 #endif

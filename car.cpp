@@ -7,6 +7,7 @@
 #include "contour.hpp"
 #include "car.hpp"
 #include "gpio.hpp"
+
 using namespace cv;// Don`t need use cv::,after use namespace.
 using namespace std;
 
@@ -24,12 +25,12 @@ int main(int argc, char **argv)
     	VideoCapture video(0); // open the default camera h480 w 640
     	if(!video.isOpened())  // check if we succeeded
         return -1;
-
+	gpio_init();
 	Mat frame1,frame2,frame3,frame4,frame5,frame6,frame7,frame8,frame9,frame10;
 	Mat prevFrame, curFrame, nextFrame;
 	Mat prevFrame1, curFrame1, nextFrame1;
 	Size s;
-
+		
 	video >> frame1; // get a new frame from camVideoCaptureera
 	cvtColor(frame1, frame2, CV_BGR2GRAY);
 	medianBlur(frame2,frame2,9);//median filterwas
@@ -74,12 +75,17 @@ int main(int argc, char **argv)
 		REC (frame1,frame7);
 		imshow("frame6",frame7);
 		imshow("video", frame1);
-		gpio_init();
+		
+		gpio_low();
+		sleep(1);
+		gpio_high();
+		sleep(1);
 		if(waitKey(30) >= 0) break;
     	}
     	// the camera will be deinitialized automatically in VideoCapture destructor
 	video.release();//close video
 	destroyAllWindows();//close window
+	gpio_uninit();//
     	return 0;
 }
 
