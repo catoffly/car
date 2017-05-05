@@ -22,4 +22,6 @@ void gpio_init(void);
 void gpio_uninit(void);
 void gpio_high(void);
 void gpio_low(void);
+void pwn_init(void);
+void pwm_uninit(void);
 #endif

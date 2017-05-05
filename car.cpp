@@ -26,6 +26,7 @@ int main(int argc, char **argv)
     	if(!video.isOpened())  // check if we succeeded
         return -1;
 	gpio_init();
+	pwn_init();
 	Mat frame1,frame2,frame3,frame4,frame5,frame6,frame7,frame8,frame9,frame10;
 	Mat prevFrame, curFrame, nextFrame;
 	Mat prevFrame1, curFrame1, nextFrame1;
@@ -76,15 +77,14 @@ int main(int argc, char **argv)
 		imshow("frame6",frame7);
 		imshow("video", frame1);
 		
-		gpio_low();
-		sleep(1);
-		gpio_high();
-		sleep(1);
+		
+		
 		if(waitKey(30) >= 0) break;
     	}
     	// the camera will be deinitialized automatically in VideoCapture destructor
 	video.release();//close video
 	destroyAllWindows();//close window
+	pwm_uninit();
 	gpio_uninit();//
     	return 0;
 }
