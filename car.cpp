@@ -19,6 +19,8 @@ Rect grid_s(0,0,32,24);
 char grid[20][20];
 char grid1[20][20],grid3[20][20];
 int  point_mun=0;
+int centre_d=0,right_d=0,left_d=0;
+void fang(void);
 Mat roiimage;
 int main(int argc, char **argv)
 {
@@ -26,7 +28,8 @@ int main(int argc, char **argv)
     	if(!video.isOpened())  // check if we succeeded
         return -1;
 	gpio_init();
-	pwn_init();
+	gpio_advance();
+
 	Mat frame1,frame2,frame3,frame4,frame5,frame6,frame7,frame8,frame9,frame10;
 	Mat prevFrame, curFrame, nextFrame;
 	Mat prevFrame1, curFrame1, nextFrame1;
@@ -46,8 +49,8 @@ int main(int argc, char **argv)
         nextFrame1 = frame4;
 	
 	s = frame4.size();	
-	printf("h %d",s.height);
-	printf("w %d",s.width);
+	//printf("h %d",s.height);
+	//printf("w %d",s.width);
 	
     	namedWindow("video",WINDOW_AUTOSIZE);
     	namedWindow("frame6",WINDOW_AUTOSIZE);
@@ -76,7 +79,7 @@ int main(int argc, char **argv)
 		REC (frame1,frame7);
 		imshow("frame6",frame7);
 		imshow("video", frame1);
-		
+		fang();
 		
 		
 		if(waitKey(30) >= 0) break;
@@ -84,7 +87,7 @@ int main(int argc, char **argv)
     	// the camera will be deinitialized automatically in VideoCapture destructor
 	video.release();//close video
 	destroyAllWindows();//close window
-	pwm_uninit();
+	gpio_stop();
 	gpio_uninit();//
     	return 0;
 }
@@ -161,15 +164,71 @@ void REC (Mat image,Mat image2)
 				Point(j*32,i*24),
 				Point(j*32+31,i*24+23),
 				Scalar(0,green,red),
-				1,8);
-			
+				1,8);	
 		}
 	}
+}
+void fang(void)
 
+{	char i,j;
+	int min_d;
+	int fang_d=0;
+	centre_d=0;
+	right_d=0;
+	left_d=0;		
+	for(i=0;i<20;i++)
+	{	
+		for(j=0;j<7;j++)
+		{
+			if(grid[j][i] ==1)
+			left_d++;
+		}
+	}		
+	for(i=0;i<20;i++)
+	{	
+		for(j=7;j<13;j++)
+		{
+			if(grid[j][i] ==1)
+			centre_d++;
+		}
+	}
+	for(i=0;i<20;i++)
+	{	
+		for(j=13;j<20;j++)
+		{
+			if(grid[j][i] ==1)
+			right_d++;
+		}
+	}
+	if(left_d<centre_d)
+	{
+		min_d=left_d;
+		fang_d=1;
+	}else
+	{
+		fang_d=2;
+		min_d=centre_d;
+	}if(right_d<min_d)
+	{
+		min_d=right_d;
+		fang_d=3;
+	}
+	switch(fang_d)
+	{
+		case 1:
+		left();
+		break;
+		case 2:
+		gpio_advance();
+		break;
+		case 3:
+		right();
+		break;
+		
+	}
+	printf("min_d %d  fang %d \r\n",min_d,fang_d);
 
 }
-
-
 
 
 

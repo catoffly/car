@@ -52,11 +52,11 @@ void gpio_init(void)
 	GPIOCOUT |= (1<<9);
 	
 	GPIOCALTFN0 &= ~(3<<26);//gpio c13
-	GPIOCALTFN0 |= (2<<26);//function2
+	GPIOCALTFN0 |= (1<<26);//function2
 	GPIOCOUTENB |= (1<<13);
 
 	GPIOCALTFN0 &= ~(3<<28);//gpio c14
-	GPIOCALTFN0 |= (2<<28);//function2
+	GPIOCALTFN0 |= (1<<28);//function2
 	GPIOCOUTENB |= (1<<14);
 	
 }
@@ -67,18 +67,46 @@ void gpio_uninit(void)
         close(dev_fd);
    	munmap((unsigned int *)base,MAP_SIZE);
 }
-void gpio_high(void)
+void gpio_advance(void)
 {
 	GPIOCOUT |= (1<<7);
 	GPIOCOUT |= (1<<9);
+	
+	GPIOCOUT &= ~(1<<13);
+	GPIOCOUT &= ~(1<<14);
 }
-void gpio_low(void)
-{	
+void gpio_back(void)
+{
+	GPIOCOUT |= (1<<13);
+	GPIOCOUT |= (1<<14);
+		
 	GPIOCOUT &= ~(1<<7);
 	GPIOCOUT &= ~(1<<9);
 }
+void gpio_stop(void)
+{
+	GPIOCOUT &= ~(1<<7);
+	GPIOCOUT &= ~(1<<9);
+	GPIOCOUT &= ~(1<<13);
+	GPIOCOUT &= ~(1<<14);
+}
+void right (void)
+{
+	GPIOCOUT |= (1<<9);
+	GPIOCOUT &= ~(1<<14);
 
+	GPIOCOUT &= ~(1<<7);
+	GPIOCOUT &= ~(1<<13);
+}
 
+void left (void)
+{
+	GPIOCOUT |= (1<<7);
+	GPIOCOUT &= ~(1<<13);
+
+	GPIOCOUT &= ~(1<<9);
+	GPIOCOUT &= ~(1<<14);
+}
 void pwn_init(void)
 {
 	dev_fd_pwm = open("/dev/mem", O_RDWR | O_NDELAY);
@@ -97,21 +125,23 @@ void pwn_init(void)
 	#define TIMERTCNTB2 *(unsigned int *)(base_pwm+0x24)
 	#define TIMERTCMPB2 *(unsigned int *)(base_pwm+0x28)
 	#define TIMERTCNTO2 *(unsigned int *)(base_pwm+0x2C)
-	
-	TIMERTCFG0 &= ~(255<<8);//prescaler 0
-	TIMERTCFG0 &= ~(255<<0);
+	TIMERTCON  &=  ~(1<<8);//close pwm
+	TIMERTCON  &=  ~(1<<12);//close pwm
+	printf("%d \r\n",TIMERTCON);
+	TIMERTCFG0 |= (255<<8);//prescaler 0
+	TIMERTCFG0 |= (255<<0);
 	TIMERTCFG1 &= ~(15<<0);
 	TIMERTCFG1 &= ~(15<<4);//divider 1
 	TIMERTCFG1 &= ~(15<<8);
-	TIMERTCNTB1 =66000;//setting cnt
-	TIMERTCMPB1 =16000;//setting compare
-	TIMERTCNTB2 =66000;//setting cnt
-	TIMERTCMPB2 =6000;//setting compare  this munber is biger ,and the average U is high
-	TIMERTCON  |=  (1<<11);
-	TIMERTCON  |=  (1<<15);
+	TIMERTCNTB1 =66;//setting cnt
+	TIMERTCMPB1 =33;//setting compare
+	TIMERTCNTB2 =66;//setting cnt
+	TIMERTCMPB2 =33;//setting compare  this munber is biger ,and the average U is high
 	TIMERTCON  |=  (1<<8);//start pwm
 	TIMERTCON  |=  (1<<12);//start pwm
-	 
+	printf("%d \r\n",TIMERTCON);
+	printf("%d \r\n",TIMERTCNTO1);
+	printf("%d \r\n",TIMERTCNTO1);
 	
 }
 void pwm_uninit(void)

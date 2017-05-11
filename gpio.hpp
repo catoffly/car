@@ -20,8 +20,11 @@ using namespace cv;
 void gpio(void);
 void gpio_init(void);
 void gpio_uninit(void);
-void gpio_high(void);
-void gpio_low(void);
+void gpio_advance(void);
+void gpio_back(void);
+void gpio_stop(void);
+void right (void);
+void left (void);
 void pwn_init(void);
 void pwm_uninit(void);
 #endif
